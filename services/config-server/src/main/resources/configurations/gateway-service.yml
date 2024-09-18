@@ -1,0 +1,30 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9098/realms/beevolley"
+      client:
+        registration:
+          keycloak:
+            client-id:
+            client-secret:
+        provider:
+          keycloak:
+            issue-uri: "http://localhost:9098/realms/beevolley"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service
+          uri: lb:http://USER-SERVICE
+          predicates:
+            - Path=/api/v1/user/**
+server:
+  port: 8222
+
+application:
+  config:
+    user-url: http://localhost:8222/api/v1/user
